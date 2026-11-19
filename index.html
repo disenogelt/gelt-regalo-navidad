@@ -1,0 +1,82 @@
+<title>Tu regalo de Navidad</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Inter:wght@400;600&display=swap">
+<style>
+/* Layout: una sola columna centrada, tarjeta de búsqueda arriba y revelación del regalo debajo */
+:root{--bg:#f3faf5;--ink:#0d3b2a;--muted:#4f6b5d;--card:#ffffff;--line:#cfe5d6;--accent:#ffc533;--accent-ink:#2b2100;--green:#12a150;
+--display:"Bricolage Grotesque","Trebuchet MS",sans-serif;--body:Inter,system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#08241a;--ink:#eaf8ef;--muted:#9bbcaa;--card:#0f3524;--line:#1f5a40;--color-scheme:dark;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#08241a;--ink:#eaf8ef;--muted:#9bbcaa;--card:#0f3524;--line:#1f5a40;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--body);padding-block:40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));min-height:100vh}
+main{max-width:520px;margin:0 auto;display:grid;gap:22px}
+.eyebrow{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{font:800 clamp(34px,9vw,52px)/1.02 var(--display);margin:6px 0 0;text-wrap:balance}
+p.lead{color:var(--muted);margin:10px 0 0}
+form{display:grid;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+label{font-weight:600;font-size:14px}
+input{font:inherit;padding:13px 14px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);min-width:0;width:100%}
+input:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+button{font:700 16px var(--body);padding:13px 16px;border-radius:10px;border:0;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+button:hover{filter:brightness(.96)}
+.opts{display:grid;gap:8px}
+.opts button{background:var(--card);color:var(--ink);border:2px solid var(--line);text-align:left;font-weight:600}
+.msg{color:var(--muted);font-size:14px;min-height:1.4em}
+.reveal{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 22px;text-align:center;display:grid;gap:8px;justify-items:center}
+.reveal .hi{font-size:15px;color:var(--muted)}
+.reveal .big{font:800 clamp(40px,12vw,64px)/1 var(--display)}
+.reveal.mochila .big{color:var(--green)}
+.reveal .sub{max-width:34ch;color:var(--muted)}
+.box{font-size:64px;line-height:1;animation:shake .5s ease-in-out infinite}
+.reveal.pop .big,.reveal.pop .sub{animation:pop .5s ease-out both}
+@keyframes shake{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){.box,.reveal.pop .big,.reveal.pop .sub{animation:none}}
+canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+</style>
+<main>
+  <header>
+    <div class="eyebrow">Gelt España · Navidad 2026</div>
+    <h1>Compi, descubre tu regalo</h1>
+    <p class="lead">Escribe tu nombre y apellido y te decimos qué te ha tocado: sampling o mochila. Todos nos llevamos algo.</p>
+  </header>
+  <form id="f" autocomplete="off">
+    <label for="n">Tu nombre</label>
+    <input id="n" placeholder="Ej: Laura Aranda" required minlength="3">
+    <button type="submit">Descubrir mi regalo</button>
+    <div class="msg" id="m" aria-live="polite"></div>
+    
+  </form>
+  <section id="r" hidden></section>
+</main>
+<canvas id="c"></canvas>
+<script>
+const TAB={"83c49745d32ba1061af9": 1, "de08d1b67255dbd2939b": 1, "ded1422b53988eceda03": 1, "88d8d9cee27435151eb8": 1, "6e30b129833446b0d89d": 1, "0b45eaee9ddfb7938d5b": 1, "99d77ef927f71379ddfe": 1, "b1d07b58d6569d160b83": 1, "0cd0a31a369273da82e7": 1, "99cd080cfa1b95d59155": 1, "3dfcf947d691ea6cf379": 1, "460eb8537abe2f32c082": 1, "d3ca21b1b22fd1916640": 1, "2549f8e8d82f7bd7a58c": 1, "e1beac4860b155dd4694": 1, "5c82f5226a4a8a7ec8e8": 1, "74e247a246bf73c2e022": 1, "0ae7d2e48ece021ec86f": 1, "d88b4f4e0aced068cd70": 1, "ff47611cbd42cdcbf87b": 1, "faa275559c515cff85bb": 1, "75e943b57c94f9f24fba": 1, "d6b1eb19345c488b8742": 1, "7d98a8eba209198ecabb": 1, "05448c6f31542671cbf8": 1, "ba6e5b300f314851fa11": 1, "3d368c6c23b8a7c72cfa": 1, "4c79ef9631d82045363c": 1, "b3bbd4617a1c5f06de35": 1, "f11f6852b2b74a39b6f5": 1, "fd9659b2dfbddc6ccbde": 0, "7a32429eb2b85f1b2d28": 0, "324df9cad2b867e7ee2b": 0, "bacfb8e305f46011dad1": 0, "faa249c543e382ea6e64": 0, "73b7ff857f0ec5e4ad47": 0, "4bbdd9b4bc2e7764cc1a": 0, "80864884b17a100909a4": 0, "f6a1b6694d414a6804ed": 0, "4a7409569ea1e5b7dbdc": 0, "20f92eb7a5d9d3965e52": 0, "bc5234eab6dacb51aca2": 0, "83274d3d08e635654e07": 0, "bd11adc0cd5cc4a28816": 0, "9fdd3b21ba0bbefa3ff7": 0, "92c0e98fd84bc4d8b7ba": 0, "840c8639b3326b21d3b6": 0, "35b3d97d9d1fb40836a5": 0, "f4ee64378889020a2da5": 0, "d949ec594a60c6a9cba7": 0, "c03163e856276e04eb67": 0, "374e5307eb75f27f2a5f": 0, "87d9b9c5b0aaa38227ac": 0, "5a3b065d1ecc41eb5a4e": 0, "f456b843e4cc25d894d3": 0, "912d364c62e04698e746": 0, "a8884cfe727c6ebe355b": 0, "a3a96cb52d7f73a341db": 0, "2cd69c1e45ba9392a20f": 0, "4e7da5c81655c2099f9e": 0, "f4a7f7c8f5ff6ef464e9": 0, "46dfebb9bc48cb35d7df": 0, "27bd00af7f6bf12ab892": 0, "f60d0647f42c5d08a3c8": 0, "f0e423682a82691aa273": 0, "0cbc73a31236b91b7ccd": 0, "1a44c2da317e39d9f9d4": 0, "173851250d8e51b2d70d": 0, "b989f5230405a5d8ca44": 0, "988a27e138ae48958096": 0, "dfcc5436951e71f89019": 0, "9abb63bb54019059a622": 0, "1e26d9adda8eb5dcf59d": 0, "8851f1caee2e060192eb": 0, "a47be41147429e710cdf": 0, "44ed4ed8b7337b7c1b55": 0, "5f5767e528d26850ca4d": 0, "edcdf0564c0a04cef472": 0, "71bbc2b0d222ba4b5609": 0, "dd4c3488c776bf52b3d9": 0, "51250234313f594b4287": 0, "eff0fbc9f12fb01da6db": 0, "0ebba2906bce118acf03": 0, "f5e6bf819bef3b6be5c2": 0, "f0b5b8e6625d5cd047f3": 0, "0f22dc62f68a886ac584": 0, "be31255272df11e7cbbd": 0, "8f5332735a30f86e78fb": 0, "c65aae06c11b911608b0": 0, "7b89a58a7b6b4a68af81": 0, "3f679dbdbfa20aefc601": 0, "a47690dc4adae55ff4e0": 0, "8bc8b4a308cc93fd0c16": 0, "8330d5f184e44d307c61": 0, "dd7dd23d17d0164ff747": 0, "318e241653e945f1a196": 0, "5700ab85205539fc22f8": 0, "8118aeeaca25fd2a4ae7": 0, "89eb0af369a6c481faa4": 0, "a3e0fdca506003dd9ac6": 0, "f7aa4e3fabec7e5fb07a": 0, "3585620c5a00e5fbccb4": 0, "78f8381c05dbaebdf41d": 0, "d37397d3bc74e5840412": 0, "9d43121e48ea96ec3465": 0, "37bbad320c1cf388af88": 0, "7ef2ebdb9c25de4fb1cc": 0, "501bee749021ec48a5f2": 0, "99d75a12fcf411ff73f4": 0, "7e9e57ed4e777a613782": 0, "e6a1d62199636fde1657": 0, "6e327d10c781938e3208": 0, "74d4477cedeeb9636015": 0, "799e3222eb3a0de425d1": 0, "e0fa21971cdcf1fba81c": 0, "97a0b52fa6b175ff6455": 0, "089f30419dddee81b70a": 0, "61059fbb980b10b56bd0": 0, "8f4260b3d2526634fb7c": 0, "dc295bc4104545aff793": 0};
+const norm=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9 ]/g," ").split(/\s+/).filter(Boolean);
+const $=id=>document.getElementById(id);
+async function H(t){const b=new TextEncoder().encode("gelt-navidad-26|"+t.join(" "));const h=await crypto.subtle.digest("SHA-256",b);return[...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,"0")).join("").slice(0,20)}
+async function look(q){const t=norm(q);const codes=new Set();
+ for(let i=0;i<t.length;i++)for(let j=i+1;j<t.length;j++){const k=await H([t[i],t[j]]);if(k in TAB)codes.add(TAB[k])}
+ return codes}
+$("f").addEventListener("submit",async e=>{e.preventDefault();$("r").hidden=true;
+ const q=$("n").value.trim();
+ if(norm(q).length<2){$("m").textContent="Escribe tu nombre y un apellido.";return}
+ const c=await look(q);
+ if(!c.size){$("m").textContent="No encontramos ese nombre. Prueba con tu nombre y primer apellido, tal como figura en la lista.";return}
+ if(c.size>1||c.has(2)){$("m").textContent="Hay otra persona con un nombre parecido. Añade tu segundo apellido.";return}
+ $("m").textContent="";show(q,c.has(1))});
+function show(name,m){$("m").textContent="";const s=$("r");s.hidden=false;
+ s.className="reveal";s.innerHTML='<div class="hi">Hola, '+esc(name.split(/\s+/)[0])+'…</div><div class="box" aria-hidden="true">🎁</div><div class="sub">Abriendo tu regalo</div>';
+ const delay=matchMedia("(prefers-reduced-motion:reduce)").matches?0:1600;
+ setTimeout(()=>{
+  s.className="reveal pop "+(m?"mochila":"");
+  s.innerHTML='<div class="hi">'+esc(name)+', tu regalo es…</div><div class="big">'+(m?"¡Una mochila!":"Sampling")+'</div><div class="sub">'+(m?"Te ha tocado una de las 8 mochilas. ¡Enhorabuena!":"Un pack de muestras para que pruebes. ¡Felices fiestas!")+'</div>';
+  if(m)confetti();s.scrollIntoView({behavior:"smooth",block:"center"})},delay)}
+function esc(t){return t.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function confetti(){if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+ const c=$("c"),x=c.getContext("2d");c.width=innerWidth;c.height=innerHeight;
+ const cols=["#ffc533","#12a150","#ff6b6b","#4dabf7","#b197fc"];
+ const ps=Array.from({length:120},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height*.5,v:2+Math.random()*4,s:5+Math.random()*7,c:cols[Math.random()*5|0],r:Math.random()*6}));
+ let f=0;(function a(){x.clearRect(0,0,c.width,c.height);ps.forEach(p=>{p.y+=p.v;p.x+=Math.sin(p.y/30);p.r+=.1;x.fillStyle=p.c;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);x.restore()});
+ if(++f<220)requestAnimationFrame(a);else x.clearRect(0,0,c.width,c.height)})()}
+</script>
