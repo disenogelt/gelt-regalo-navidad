@@ -38,7 +38,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
   <header>
     <div class="eyebrow">Gelt España · Navidad 2026</div>
     <h1>Compi, tienes un regalo</h1>
-    <p class="lead">Escribe tu nombre y apellido y te decimos qué te ha tocado: sampling o mochila. Todos nos llevamos algo.</p>
+    <p class="lead">Escribe tu nombre y apellido y te decimos qué te ha tocado: mochila con sampling o muestra. Todos nos llevamos algo.</p>
   </header>
   <form id="f" autocomplete="off">
     <label for="n">Tu nombre</label>
@@ -70,7 +70,7 @@ function show(name,m){$("m").textContent="";const s=$("r");s.hidden=false;
  const delay=matchMedia("(prefers-reduced-motion:reduce)").matches?0:1600;
  setTimeout(()=>{
   s.className="reveal pop "+(m?"mochila":"");
-  s.innerHTML='<div class="hi">'+esc(name)+', tu regalo es…</div><div class="big">'+(m?"¡Una mochila!":"Sampling")+'</div><div class="sub">'+(m?"Te ha tocado una de las 8 mochilas. ¡Enhorabuena!":"Un pack de muestras para que pruebes. ¡Felices fiestas!")+'</div>';
+  s.innerHTML='<div class="hi">'+esc(name)+', tu regalo es…</div><div class="big">'+(m?"¡Mochila con sampling!":"¡Una muestra!")+'</div><div class="sub">'+(m?"Te ha tocado una de las 8 mochilas, y viene con sampling dentro. ¡Enhorabuena!":"Una muestra para que pruebes. ¡Felices fiestas!")+'</div>';
   if(m)confetti();s.scrollIntoView({behavior:"smooth",block:"center"})},delay)}
 function esc(t){return t.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
 function confetti(){if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
