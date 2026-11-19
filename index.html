@@ -64,7 +64,7 @@ $("f").addEventListener("submit",async e=>{e.preventDefault();$("r").hidden=true
  const c=await look(q);
  if(!c.size){$("m").textContent="No encontramos ese nombre. Prueba con tu nombre y primer apellido, tal como figura en la lista.";return}
  if(c.size>1||c.has(2)){$("m").textContent="Hay otra persona con un nombre parecido. Añade tu segundo apellido.";return}
- $("m").textContent="";show(q.replace(/S+/g,w=>w[0].toUpperCase()+w.slice(1).toLowerCase()),c.has(1))});
+ $("m").textContent="";show(q.replace(/[^ ]+/g,w=>w[0].toUpperCase()+w.slice(1).toLowerCase()),c.has(1))});
 function show(name,m){$("m").textContent="";const s=$("r");s.hidden=false;
  s.className="reveal";s.innerHTML='<div class="hi">Hola, '+esc(name.split(/\s+/)[0])+'…</div><div class="box" aria-hidden="true">🎁</div><div class="sub">Abriendo tu regalo</div>';
  const delay=matchMedia("(prefers-reduced-motion:reduce)").matches?0:1600;
